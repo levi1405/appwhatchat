@@ -43,34 +43,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FloatingActionButton.extended(
-                backgroundColor: Colors.redAccent,
-                onPressed: () async {
-                  //for showing progress dialog
+              backgroundColor: Colors.redAccent,
+              onPressed: () async {
+                // Mostrar el cuadro de diálogo de confirmación
+                bool? confirmLogout = await showLogoutDialog(context);
+
+                if (confirmLogout == true) {
+                  // Mostrar el cuadro de diálogo de progreso
                   Dialogs.showProgressBar(context);
 
+                  // Realizar la lógica de cierre de sesión
                   await APIs.updateActiveStatus(false);
-
-                  //sign out from app
                   await APIs.auth.signOut().then((value) async {
                     await GoogleSignIn().signOut().then((value) {
-          //floating button to log out
+                      // Cerrar el cuadro de diálogo de progreso
                       Navigator.pop(context);
 
-                      //for moving to home screen
+                      // Cerrar la pantalla actual
                       Navigator.pop(context);
 
                       APIs.auth = FirebaseAuth.instance;
 
-                      //replacing home screen with login screen
+                      // Reemplazar la pantalla actual con la pantalla de inicio de sesión
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const LoginScreen()));
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      );
                     });
                   });
-                },
-                icon: const Icon(Icons.logout),
-                label: const Text('Cerrar sesión')),
+                }
+              },
+              icon: const Icon(Icons.logout),
+              label: const Text('Cerrar sesión'),
+            ),
           ),
 
           //body
@@ -197,14 +202,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       },
                       icon: const Icon(Icons.edit, size: 28),
-                      label:
-                          const Text('ACTUALIZAR', style: TextStyle(fontSize: 16)),
+                      label: const Text('ACTUALIZAR',
+                          style: TextStyle(fontSize: 16)),
                     )
                   ],
                 ),
               ),
             ),
           )),
+    );
+  }
+
+  // Función para mostrar un cuadro de diálogo de confirmación
+  Future<bool?> showLogoutDialog(BuildContext context) async {
+    return showDialog<bool?>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          backgroundColor: Colors.lightBlue[100], // Fondo más claro
+          title: const Text(
+            'Cerrar Sesión',
+            style: TextStyle(color: Colors.black), // Texto del título en negro
+          ),
+          content: const Text(
+            '¿Estás seguro de que deseas cerrar sesión?',
+            style:
+                TextStyle(color: Colors.black), // Texto del contenido en negro
+          ),
+          actions: [
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(
+                          255, 183, 145, 7), // Color del botón más oscuro
+                      elevation:
+                          5.0, // Mayor elevación para un efecto más pronunciado
+                      shadowColor: Colors.black, // Color de la sombra
+                    ),
+                    onPressed: () {
+                      // Cerrar el cuadro de diálogo y devolver false
+                      Navigator.of(context).pop(false);
+                    },
+                    child: const Text('Cancelar'),
+                  ),
+                  SizedBox(width: 10), // Espaciado entre botones
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Colors.blueAccent, // Color del botón más oscuro
+                      elevation:
+                          5.0, // Mayor elevación para un efecto más pronunciado
+                      shadowColor: Colors.black, // Color de la sombra
+                    ),
+                    onPressed: () {
+                      // Cerrar el cuadro de diálogo y devolver true
+                      Navigator.of(context).pop(true);
+                    },
+                    child: const Text('Cerrar Sesión'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
