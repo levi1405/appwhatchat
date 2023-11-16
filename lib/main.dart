@@ -11,20 +11,26 @@ import 'package:flutter_notification_channel/notification_importance.dart';
 //global object for accessing device screen size
 late Size mq;
 
+// Función principal 'main' que se ejecuta al iniciar la aplicación.
 void main() {
+  // Asegura que se hayan inicializado los enlaces de widgets de Flutter antes de ejecutar la aplicación.
   WidgetsFlutterBinding.ensureInitialized();
 
-  //enter full-screen
+  // Configura el sistema para habilitar el modo de IU inmersiva y pegajosa.
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-  //for setting orientation to portrait only
+  // Configura las orientaciones preferidas de la pantalla (solo en modo retrato) y luego ejecuta el código en el bloque 'then'.
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((value) {
+    // Llama a la función para inicializar Firebase.
     _initializeFirebase();
+
+    // Ejecuta la aplicación Flutter 'MyApp'.
     runApp(const MyApp());
   });
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
