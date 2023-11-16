@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "231424339124",
+    "project_id": "whatchat-83cb0",
+    "storage_bucket": "whatchat-83cb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231424339124:android:04cd056094f2496c0e7be1",
+        "android_client_info": {
+          "package_name": "com.gedl.appwhatchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231424339124-d5g21imkf3n1i606l1hor66hd99mm30e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gedl.appwhatchat",
+            "certificate_hash": "a8fad8d65382c11e7c33015581300b4655da97a5"
+          }
+        },
+        {
+          "client_id": "231424339124-qhecvngtvmd64u88al9m2qc4lh52qtv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeUI_X6uCXfV7UQLT8Y2geLkSAw3iY230"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231424339124-qhecvngtvmd64u88al9m2qc4lh52qtv3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "231424339124-038aqbckd5dq4uduena7nofvqt22g1oa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gedl.appwhatchat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231424339124:android:094d68241d532fe30e7be1",
+        "android_client_info": {
+          "package_name": "com.gedl.whatchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231424339124-a5hbp1450kbdkc0rird31nd7gd2v6plg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gedl.whatchat",
+            "certificate_hash": "a8fad8d65382c11e7c33015581300b4655da97a5"
+          }
+        },
+        {
+          "client_id": "231424339124-qhecvngtvmd64u88al9m2qc4lh52qtv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeUI_X6uCXfV7UQLT8Y2geLkSAw3iY230"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231424339124-qhecvngtvmd64u88al9m2qc4lh52qtv3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "231424339124-038aqbckd5dq4uduena7nofvqt22g1oa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gedl.appwhatchat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
