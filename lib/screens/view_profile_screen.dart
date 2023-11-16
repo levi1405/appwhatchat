@@ -78,7 +78,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                   // for adding some space
                   SizedBox(height: mq.height * .02),
 
-                  //user about
+                //user about
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
