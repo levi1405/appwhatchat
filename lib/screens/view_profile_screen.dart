@@ -7,6 +7,7 @@ import '../main.dart';
 import '../models/chat_user.dart';
 
 //view profile screen -- to view profile of user
+//Ver pantalla de perfil - para ver el perfil del usuario
 class ViewProfileScreen extends StatefulWidget {
   final ChatUser user;
 
