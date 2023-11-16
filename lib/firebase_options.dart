@@ -14,41 +14,52 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
+// Clase 'DefaultFirebaseOptions' que proporciona las opciones de configuración predeterminadas para Firebase.
 class DefaultFirebaseOptions {
+  // Método estático que devuelve las opciones de configuración de Firebase para la plataforma actual.
   static FirebaseOptions get currentPlatform {
+    // Verifica si la plataforma de destino es la web.
     if (kIsWeb) {
+      // Lanza un error no admitido si la plataforma es web y las opciones de configuración no están disponibles.
       throw UnsupportedError(
         'DefaultFirebaseOptions have not been configured for web - '
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
+    
+    // Realiza un switch en la plataforma de destino y devuelve las opciones de configuración correspondientes.
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
+        // Lanza un error no admitido si la plataforma es macOS y las opciones de configuración no están disponibles.
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
+        // Lanza un error no admitido si la plataforma es Windows y las opciones de configuración no están disponibles.
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
+        // Lanza un error no admitido si la plataforma es Linux y las opciones de configuración no están disponibles.
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
+        // Lanza un error no admitido si la plataforma no es compatible.
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
         );
     }
   }
 
+  // Opciones de configuración de Firebase para la plataforma Android.
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCeUI_X6uCXfV7UQLT8Y2geLkSAw3iY230',
     appId: '1:231424339124:android:04cd056094f2496c0e7be1',
@@ -57,6 +68,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'whatchat-83cb0.appspot.com',
   );
 
+  // Opciones de configuración de Firebase para la plataforma iOS.
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAYBZTBF1YeBmwpuHihMF2_KjdMl8hoLbs',
     appId: '1:231424339124:ios:4233fd8476b81d260e7be1',
@@ -68,3 +80,4 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.gedl.appwhatchat',
   );
 }
+
