@@ -54,6 +54,36 @@ class APIs {
     });
   }
 
+  // for sending push notification
+  static Future<void> sendPushNotification(
+      ChatUser chatUser, String msg) async {
+    try {
+      final body = {
+        "to": chatUser.pushToken,
+        "notification": {
+          "title": me.name, //our name should be send
+          "body": msg,
+          "android_channel_id": "chats"
+        },
+        // "data": {
+        //   "some_data": "User ID: ${me.id}",
+        // },
+      };
+
+      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader:
+                'key=AAAANeH3LLQ:APA91bHvdxtNehSozHkq4uwITq9PHQReH4zdFftHGo65uwf17TAwXoIMrG3Y6nqNikG3_MKDJfkYAnQM_RWbsH434hd1ZxoZlIyIBnzBGvPfMKVtjdQ6lnNi0p_Rg0nViU-fUZYTQOze'
+          },
+          body: jsonEncode(body));
+      log('Response status: ${res.statusCode}');
+      log('Response body: ${res.body}');
+    } catch (e) {
+      log('\nsendPushNotificationE: $e');
+    }
+  }
+
   // Método para verificar si un usuario existe.
   static Future<bool> userExists() async {
     return (await firestore.collection('users').doc(user.uid).get()).exists;
