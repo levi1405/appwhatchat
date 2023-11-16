@@ -1,3 +1,4 @@
+// Importa paquetes necesarios para el manejo de datos, autenticación, almacenamiento, y notificaciones en Firebase.
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -8,20 +9,22 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
 
+// Importa modelos de usuario y mensaje.
 import '../models/chat_user.dart';
 import '../models/message.dart';
 
+// Clase que proporciona métodos y variables para interactuar con Firebase y realizar operaciones en la base de datos.
 class APIs {
-  // for authentication
+  // Para autenticación.
   static FirebaseAuth auth = FirebaseAuth.instance;
 
-  // for accessing cloud firestore database
+  // Para acceder a la base de datos Cloud Firestore.
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  // for accessing firebase storage
+  // Para acceder al almacenamiento de Firebase.
   static FirebaseStorage storage = FirebaseStorage.instance;
 
-  // for storing self information
+  // Usuario actual.
   static ChatUser me = ChatUser(
       id: user.uid,
       name: user.displayName.toString(),
@@ -33,13 +36,13 @@ class APIs {
       lastActive: '',
       pushToken: '');
 
-  // to return current user
+  // Método getter para obtener el usuario actual.
   static User get user => auth.currentUser!;
 
-  // for accessing firebase messaging (Push Notification)
+  // Para acceder a las notificaciones de Firebase (Push Notification).
   static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
 
-  // for getting firebase messaging token
+  // Método para obtener el token de notificaciones de Firebase.
   static Future<void> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
 
@@ -49,54 +52,14 @@ class APIs {
         log('Push Token: $t');
       }
     });
-
-    // for handling foreground messages
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   log('Got a message whilst in the foreground!');
-    //   log('Message data: ${message.data}');
-
-    //   if (message.notification != null) {
-    //     log('Message also contained a notification: ${message.notification}');
-    //   }
-    // });
   }
 
-  // for sending push notification
-  // static Future<void> sendPushNotification(
-  //     ChatUser chatUser, String msg) async {
-  //   try {
-  //     final body = {
-  //       "to": chatUser.pushToken,
-  //       "notification": {
-  //         "title": me.name, //our name should be send
-  //         "body": msg,
-  //         "android_channel_id": "chats"
-  //       },
-  //       // "data": {
-  //       //   "some_data": "User ID: ${me.id}",
-  //       // },
-  //     };
-
-  //     var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //         headers: {
-  //           HttpHeaders.contentTypeHeader: 'application/json',
-  //           HttpHeaders.authorizationHeader:
-  //               'key=AAAAQ0Bf7ZA:APA91bGd5IN5v43yedFDo86WiSuyTERjmlr4tyekbw_YW6JrdLFblZcbHdgjDmogWLJ7VD65KGgVbETS0Px7LnKk8NdAz4Z-AsHRp9WoVfArA5cNpfMKcjh_MQI-z96XQk5oIDUwx8D1'
-  //         },
-  //         body: jsonEncode(body));
-  //     log('Response status: ${res.statusCode}');
-  //     log('Response body: ${res.body}');
-  //   } catch (e) {
-  //     log('\nsendPushNotificationE: $e');
-  //   }
-  // }
-
-  // for checking if user exists or not?
+  // Método para verificar si un usuario existe.
   static Future<bool> userExists() async {
     return (await firestore.collection('users').doc(user.uid).get()).exists;
   }
 
-  // for adding an chat user for our conversation
+  // Método para agregar un usuario a la lista de contactos.
   static Future<bool> addChatUser(String email) async {
     final data = await firestore
         .collection('users')
@@ -106,8 +69,7 @@ class APIs {
     log('data: ${data.docs}');
 
     if (data.docs.isNotEmpty && data.docs.first.id != user.uid) {
-      //user exists
-
+      // El usuario existe.
       log('user exists: ${data.docs.first.data()}');
 
       firestore
@@ -119,20 +81,19 @@ class APIs {
 
       return true;
     } else {
-      //user doesn't exists
-
+      // El usuario no existe.
       return false;
     }
   }
 
-  // for getting current user info
+  // Método para obtener la información del usuario actual.
   static Future<void> getSelfInfo() async {
     await firestore.collection('users').doc(user.uid).get().then((user) async {
       if (user.exists) {
         me = ChatUser.fromJson(user.data()!);
         await getFirebaseMessagingToken();
 
-        //for setting user status to active
+        // Para establecer el estado del usuario como activo.
         APIs.updateActiveStatus(true);
         log('My Data: ${user.data()}');
       } else {
@@ -141,7 +102,7 @@ class APIs {
     });
   }
 
-  // for creating a new user
+  // Método para crear un nuevo usuario.
   static Future<void> createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -162,7 +123,7 @@ class APIs {
         .set(chatUser.toJson());
   }
 
-  // for getting id's of known users from firestore database
+  // Método para obtener los IDs de los usuarios conocidos desde la base de datos de Firestore.
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
     return firestore
         .collection('users')
@@ -171,7 +132,7 @@ class APIs {
         .snapshots();
   }
 
-  // for getting all users from firestore database
+  // Método para obtener todos los usuarios desde la base de datos de Firestore.
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
       List<String> userIds) {
     log('\nUserIds: $userIds');
@@ -181,12 +142,11 @@ class APIs {
         .where('id',
             whereIn: userIds.isEmpty
                 ? ['']
-                : userIds) //because empty list throws an error
-        // .where('id', isNotEqualTo: user.uid)
+                : userIds) // porque la lista vacía arroja un error
         .snapshots();
   }
 
-  // for adding an user to my user when first message is send
+  // Método para enviar el primer mensaje a un usuario.
   static Future<void> sendFirstMessage(
       ChatUser chatUser, String msg, Type type) async {
     await firestore
@@ -197,7 +157,7 @@ class APIs {
         .set({}).then((value) => sendMessage(chatUser, msg, type));
   }
 
-  // for updating user information
+  // Método para actualizar la información del usuario.
   static Future<void> updateUserInfo() async {
     await firestore.collection('users').doc(user.uid).update({
       'name': me.name,
@@ -205,23 +165,23 @@ class APIs {
     });
   }
 
-  // update profile picture of user
+  // Método para actualizar la imagen de perfil del usuario.
   static Future<void> updateProfilePicture(File file) async {
-    //getting image file extension
+    // Obtener la extensión del archivo de imagen.
     final ext = file.path.split('.').last;
     log('Extension: $ext');
 
-    //storage file ref with path
+    // Referencia al archivo en el almacenamiento.
     final ref = storage.ref().child('profile_pictures/${user.uid}.$ext');
 
-    //uploading image
+    // Subir la imagen al almacenamiento.
     await ref
         .putFile(file, SettableMetadata(contentType: 'image/$ext'))
         .then((p0) {
       log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
     });
 
-    //updating image in firestore database
+    // Actualizar la URL de la imagen en la base de datos de Firestore.
     me.image = await ref.getDownloadURL();
     await firestore
         .collection('users')
@@ -229,7 +189,7 @@ class APIs {
         .update({'image': me.image});
   }
 
-  // for getting specific user info
+  // Método para obtener información específica de un usuario.
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
       ChatUser chatUser) {
     return firestore
@@ -238,7 +198,7 @@ class APIs {
         .snapshots();
   }
 
-  // update online or last active status of user
+  // Método para actualizar el estado en línea o el estado de la última actividad del usuario.
   static Future<void> updateActiveStatus(bool isOnline) async {
     firestore.collection('users').doc(user.uid).update({
       'is_online': isOnline,
@@ -247,16 +207,16 @@ class APIs {
     });
   }
 
-  ///************** Chat Screen Related APIs **************
+  ///************** APIs relacionadas con la pantalla de chat **************
 
-  // chats (collection) --> conversation_id (doc) --> messages (collection) --> message (doc)
+  // chats (colección) --> conversation_id (documento) --> messages (colección) --> message (documento)
 
-  // useful for getting conversation id
+  // Método útil para obtener el ID de la conversación.
   static String getConversationID(String id) => user.uid.hashCode <= id.hashCode
       ? '${user.uid}_$id'
       : '${id}_${user.uid}';
 
-  // for getting all messages of a specific conversation from firestore database
+  // Método para obtener todos los mensajes de una conversación específica desde la base de datos de Firestore.
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
       ChatUser user) {
     return firestore
@@ -265,13 +225,13 @@ class APIs {
         .snapshots();
   }
 
-  // for sending message
+  // Método para enviar un mensaje.
   static Future<void> sendMessage(
       ChatUser chatUser, String msg, Type type) async {
-    //message sending time (also used as id)
+    // Hora de envío del mensaje (también se usa como identificación única).
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
-    //message to send
+    // Mensaje a enviar.
     final Message message = Message(
         toId: chatUser.id,
         msg: msg,
@@ -286,7 +246,7 @@ class APIs {
     //     sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
   }
 
-  //update read status of message
+  // Método para actualizar el estado de lectura de un mensaje.
   static Future<void> updateMessageReadStatus(Message message) async {
     firestore
         .collection('chats/${getConversationID(message.fromId)}/messages/')
@@ -294,7 +254,7 @@ class APIs {
         .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
   }
 
-  //get only last message of a specific chat
+  // Método para obtener solo el último mensaje de una conversación específica.
   static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
       ChatUser user) {
     return firestore
@@ -304,28 +264,28 @@ class APIs {
         .snapshots();
   }
 
-  //send chat image
+  // Método para enviar una imagen en el chat.
   static Future<void> sendChatImage(ChatUser chatUser, File file) async {
-    //getting image file extension
+    // Obtener la extensión del archivo de imagen.
     final ext = file.path.split('.').last;
 
-    //storage file ref with path
+    // Referencia al archivo en el almacenamiento.
     final ref = storage.ref().child(
         'images/${getConversationID(chatUser.id)}/${DateTime.now().millisecondsSinceEpoch}.$ext');
 
-    //uploading image
+    // Subir la imagen al almacenamiento.
     await ref
         .putFile(file, SettableMetadata(contentType: 'image/$ext'))
         .then((p0) {
       log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
     });
 
-    //updating image in firestore database
+    // Actualizar la URL de la imagen en la base de datos de Firestore y enviar el mensaje.
     final imageUrl = await ref.getDownloadURL();
     await sendMessage(chatUser, imageUrl, Type.image);
   }
 
-  //delete message
+  // Método para eliminar un mensaje.
   static Future<void> deleteMessage(Message message) async {
     await firestore
         .collection('chats/${getConversationID(message.toId)}/messages/')
@@ -337,7 +297,7 @@ class APIs {
     }
   }
 
-  //update message
+  // Método para actualizar un mensaje.
   static Future<void> updateMessage(Message message, String updatedMsg) async {
     await firestore
         .collection('chats/${getConversationID(message.toId)}/messages/')
