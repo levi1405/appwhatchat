@@ -42,7 +42,9 @@ class _ChatScreenState extends State<ChatScreen> {
       child: SafeArea(
         child: WillPopScope(
           //if emojis are shown & back button is pressed then hide emojis
+          //si se muestran emojis y se presiona el botón Atrás, oculte los emojis
           //or else simple close current screen on back button click
+          //o simplemente cierre la pantalla actual al hacer clic en el botón Atrás
           onWillPop: () {
             if (_showEmoji) {
               setState(() => _showEmoji = !_showEmoji);
