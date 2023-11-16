@@ -17,6 +17,7 @@ import '../models/chat_user.dart';
 import 'auth/login_screen.dart';
 
 //profile screen -- to show signed in user info
+//pantalla de perfil: para mostrar la información del usuario que ha iniciado sesión
 class ProfileScreen extends StatefulWidget {
   final ChatUser user;
 
