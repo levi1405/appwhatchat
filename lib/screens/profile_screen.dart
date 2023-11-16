@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //sign out from app
                   await APIs.auth.signOut().then((value) async {
                     await GoogleSignIn().signOut().then((value) {
-                      //for hiding progress dialog
+          //floating button to log out
                       Navigator.pop(context);
 
                       //for moving to home screen
