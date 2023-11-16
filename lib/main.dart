@@ -31,7 +31,6 @@ void main() {
   });
 }
 
-
 // Clase 'MyApp' que representa la aplicación Flutter.
 class MyApp extends StatelessWidget {
   // Constructor constante para la clase 'MyApp'.
@@ -63,9 +62,7 @@ class MyApp extends StatelessWidget {
 
           // Estilo del texto del título en la barra de aplicación.
           titleTextStyle: TextStyle(
-              color: Colors.black, 
-              fontWeight: FontWeight.normal, 
-              fontSize: 19),
+              color: Colors.black, fontWeight: FontWeight.normal, fontSize: 19),
 
           // Color de fondo de la barra de aplicación.
           backgroundColor: Colors.white,
@@ -81,8 +78,6 @@ _initializeFirebase() async {
   // Espera a que la inicialización de Firebase se complete.
   // 'options' se utiliza para proporcionar opciones de configuración adicionales, en este caso, utiliza las opciones predeterminadas para la plataforma actual.
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-
 
   // var result = await FlutterNotificationChannel.registerNotificationChannel(
   //     description: 'Para mostrar notificaciones de mensajes',
