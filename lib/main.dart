@@ -79,10 +79,10 @@ _initializeFirebase() async {
   // 'options' se utiliza para proporcionar opciones de configuración adicionales, en este caso, utiliza las opciones predeterminadas para la plataforma actual.
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // var result = await FlutterNotificationChannel.registerNotificationChannel(
-  //     description: 'Para mostrar notificaciones de mensajes',
-  //     id: 'chats',
-  //     importance: NotificationImportance.IMPORTANCE_HIGH,
-  //     name: 'Chats');
-  // log('\nResultado del canal de notificación: $result');
+  var result = await FlutterNotificationChannel.registerNotificationChannel(
+      description: 'Para mostrar notificaciones de mensajes',
+      id: 'chats',
+      importance: NotificationImportance.IMPORTANCE_HIGH,
+      name: 'Chats');
+  log('\nResultado del canal de notificación: $result');
 }

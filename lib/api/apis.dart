@@ -272,8 +272,8 @@ class APIs {
 
     final ref = firestore
         .collection('chats/${getConversationID(chatUser.id)}/messages/');
-    // await ref.doc(time).set(message.toJson()).then((value) =>
-    //     sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
+    await ref.doc(time).set(message.toJson()).then((value) =>
+        sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
   }
 
   // Método para actualizar el estado de lectura de un mensaje.
