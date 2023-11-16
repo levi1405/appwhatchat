@@ -12,6 +12,7 @@ import '../widgets/chat_user_card.dart';
 import 'profile_screen.dart';
 
 //home screen -- where all available contacts are shown
+//home Screen -- donde se muestran todos los contactos 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
