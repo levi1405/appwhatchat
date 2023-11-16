@@ -26,7 +26,7 @@ class DefaultFirebaseOptions {
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
-    
+
     // Realiza un switch en la plataforma de destino y devuelve las opciones de configuración correspondientes.
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -75,9 +75,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '231424339124',
     projectId: 'whatchat-83cb0',
     storageBucket: 'whatchat-83cb0.appspot.com',
-    androidClientId: '231424339124-a5hbp1450kbdkc0rird31nd7gd2v6plg.apps.googleusercontent.com',
-    iosClientId: '231424339124-038aqbckd5dq4uduena7nofvqt22g1oa.apps.googleusercontent.com',
+    androidClientId:
+        '231424339124-a5hbp1450kbdkc0rird31nd7gd2v6plg.apps.googleusercontent.com',
+    iosClientId:
+        '231424339124-038aqbckd5dq4uduena7nofvqt22g1oa.apps.googleusercontent.com',
     iosBundleId: 'com.gedl.appwhatchat',
   );
 }
-
