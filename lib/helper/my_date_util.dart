@@ -10,6 +10,7 @@ class MyDateUtil {
   }
 
   // for getting formatted time for sent & read
+  //para obtener la hora formateada para enviar y leer
   static String getMessageTime(
       {required BuildContext context, required String time}) {
     final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
@@ -28,6 +29,7 @@ class MyDateUtil {
   }
 
   //get last message time (used in chat user card)
+  //obtener la hora del último mensaje (usado en la tarjeta de usuario del chat)
   static String getLastMessageTime(
       {required BuildContext context,
       required String time,
@@ -47,6 +49,7 @@ class MyDateUtil {
   }
 
   //get formatted last active time of user in chat screen
+  //Obtener formato última hora activa del usuario en la pantalla de chat
   static String getLastActiveTime(
       {required BuildContext context, required String lastActive}) {
     final int i = int.tryParse(lastActive) ?? -1;
@@ -74,6 +77,7 @@ class MyDateUtil {
   }
 
   // get month name from month no. or index
+  //obtener el nombre del mes del mes no. o índice
   static String _getMonth(DateTime date) {
     switch (date.month) {
       case 1:
